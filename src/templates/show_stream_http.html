@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-  
+        scale=1">
+        <link rel="stylesheet" 
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-
+        awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/static/index.css">
+    </head>
+    <body>
+        <h1><center>Stream {{ stream['number'] }}</center></h1>
+        <form class="example" action="/generate_code_from_stream" method="post" style="margin:auto;width:100%">
+			<input type="hidden" name="stream_id" value="{{ stream['id'] }}">
+			<button type="submit">Click here to generate python code from the stream</button>
+		</form>
+        <p></p>
+        <table style="width:100%">
+            {% for payload in stream['payloads'] %}
+                {% if payload['type'] == 'request' %}
+                    <tr>
+                        <th> Request From </th>
+                        <th> Request To </th>
+                        <th> URI </th>
+                        <th> Method </th>
+                        <th> Parameters </th>
+                    </tr>
+                    <tr>
+                        <td> {{ stream['remote_ip'] }}:{{ stream['remote_port'] }}</td>
+                        <td> {{ stream['local_ip'] }}:{{ stream['local_port'] }} </td>
+                        <td> {{ payload['http']['URI'] }} </td>
+                        <td> {{ payload['http']['method'] }} </td>
+                        <td> {{ payload['http']['parameters'] }} </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <th> Response From </th>
+                        <th> Response To </th>
+                        <th> Status Code </th>
+                        <th> Before Flag </th>
+                        <th> Data </th>
+                    </tr>
+                    <tr>
+                        <td> {{ stream['local_ip'] }}:{{ stream['local_port'] }} </td>
+                        <td> {{ stream['remote_ip'] }}:{{ stream['remote_port'] }}</td>
+                        <td> {{ payload['http']['status_code'] }} </td>
+                        <td> {{ payload['sequence_number'] < stream['flag_sn'] }} </td>
+                        <td>
+                            <div class="popup" onclick="clickFunction(event, {{ payload['id'] }})">Show payload data
+                                  <span class="popuptext" id="{{ payload['id'] }}">
+                                    {{ payload['data'] }}
+                                  </span>
+                            </div>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+    </body>
+    <script src="/static/http_payload.js"></script>
+</html>

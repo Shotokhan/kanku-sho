@@ -1,0 +1,39 @@
+{
+  "global": {
+    "flag_regex": "flg\\{[A-Za-z0-9]{25}\\}",
+    "round_timeout": 15,
+    "user": "mininet",
+    "host": "192.168.122.115",
+    "port": 22,
+    "identity_file": "/home/marcofelix98/CyberChallenge/attack_defense/Traffic_analysis/remote_VM_ssh_id"
+  },
+  "capture": {
+    "remote_interface": "any",
+    "remote_pcap_folder": "/home/mininet/",
+    "local_pcap_folder": "/home/marcofelix98/CyberChallenge/attack_defense/Traffic_analysis",
+    "local_pcap_backup": "/home/marcofelix98/CyberChallenge/attack_defense/Traffic_analysis/Analysis_done",
+    "cap_filename_prefix": "capture",
+    "run_with_sudo": true,
+    "time_string": "%d_%m_%Y_%H:%M:%S"
+  },
+  "traffic_db": {
+    "db_name": "test.db",
+    "db_host": "127.0.0.1"
+  },
+  "exploitation": {
+    "opponents": [
+      "10.10.1.1",
+      "10.10.2.1"
+    ],
+    "request_limitator_sleep_time": 1
+  },
+  "submission": {
+    "flag_submission_URI": "https://finals.cyberchallenge.it/submit",
+    "team_token": "sTecA0Gm7G0UdteD"
+  },
+  "flask": {
+    "port": 8000,
+    "host": "127.0.0.1",
+    "debug": true
+  }
+}

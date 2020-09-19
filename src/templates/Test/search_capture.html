@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-  
+        scale=1">
+        <link rel="stylesheet" 
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-
+        awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="./static/index.css">
+    </head>
+    <body>
+        <h1><center>Capture Files</center></h1>
+        <form class="example" method="post" action="" 
+         style="margin:auto;width:100%"> <!-- ;max-width:600px -->
+            <label> Fill zero, one or more fields </label>
+            <label for="low_timestamp">Date before capture file</label><br>
+            <input type="date" name="low_timestamp" id="low_timestamp"><br>
+            <label for="high_timestamp">Date after capture file</label><br>
+            <input type="date" name="high_timestamp" id="high_timestamp"><br>
+            <input type="text" placeholder="User of the system on which the capture was done" name="user"><br>
+	    <input type="text" placeholder="Host of the system on which the capture was done" name="host"><br>
+	    <input type="text" placeholder="ID of the capture file" name="id"><br>
+            <button type="submit">Search<i class="fa fa-search"></i><br>
+            </button>
+        </form>
+        <p></p>
+        <table style="width:100%">
+            <tr>
+                <th> ID </th>
+                <th> Date </th>
+                <th> User </th>
+                <th> Host </th>
+                <th> Flag regex </th>
+                <th> Interface </th>
+                <th> Related streams </th>
+            </tr>
+            <tr>
+                <td> 1 </td>
+                <td> 2020-09-05 12:05 </td>
+                <td> root </td>
+                <td> 10.10.17.1 </td>
+                <td> flg\{[A-Za-z0-9]{25}\} </td>
+		<td> Any </td>
+		<td> <form class="intable" action="/search_stream" method="post">
+			<input type="hidden" name="id" value=1>
+			<button type="submit">Click here to go to streams</button>
+		</form> </td>
+            </tr>
+        </table>
+    </body>
+</html>

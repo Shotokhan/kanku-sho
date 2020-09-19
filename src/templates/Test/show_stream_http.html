@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-  
+        scale=1">
+        <link rel="stylesheet" 
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-
+        awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="./static/index.css">
+    </head>
+    <body>
+        <h1><center>Stream 1 <br> Tip: try Ctrl + Click on "Show payload data" </br></center></h1>
+        <form class="example" action="/generate_code_from_stream" method="post" style="margin:auto;width:100%">
+			<input type="hidden" name="stream_id" value=1>
+			<button type="submit">Click here to generate python code from the stream</button>
+		</form>
+        <p></p>
+        <table style="width:100%">
+            <tr>
+                <th> Request From </th>
+                <th> Request To </th>
+                <th> URI </th>
+                <th> Parameters </th>
+            </tr>
+            <tr>
+                <td> 10.10.17.125:36404 </td>
+                <td> 10.10.17.1:8080 </td>
+                <td> /login </td>
+                <td> username=pippo&password=%22+OR+1%3D1+--+ </td>
+            </tr>
+             <tr>
+                <th> Response From </th>
+                <th> Response To </th>
+                <th> Status Code </th>
+                <th> Data </th>
+            </tr>
+            <tr>
+                <td> 10.10.17.1:8080 </td>
+                <td> 10.10.17.125:36404 </td>
+                <td> 200 </td>
+		<td> 
+			<div class="popup" onclick="myFunction(event, 'myPopup')">Show payload data
+				  <span class="popuptext" id="myPopup">
+				  	&lt;!doctype html&gt;\xa&lt;html&gt;\xa    &lt;head&gt;\xa        &lt;!-- Required meta tags --&gt;\xa        &lt;meta charset=&quot;utf-8&quot;&gt;\xa        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, shrink-to-fit=no&quot;&gt;\xa\xa        &lt;!-- Bootstrap CSS --&gt;\xa        &lt;link rel=&quot;stylesheet&quot; href=&quot;/static/css/bootstrap.min.css&quot; integrity=&quot;sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T&quot; crossorigin=&quot;anonymous&quot;&gt;\xa\xa        &lt;title&gt;CrashAir - Home&lt;/title&gt;\xa    &lt;/head&gt;\xa    &lt;body&gt;\xa        &lt;div class=&quot;d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm&quot;&gt;\xa            &lt;h5 class=&quot;my-0 mr-md-auto font-weight-normal&quot;&gt;&lt;a href=&quot;/&quot;&gt;CrashAir&lt;/a&gt;&lt;/h5&gt;\xa            &lt;nav class=&quot;my-2 my-md-0 mr-md-3&quot;&gt;\xa                &lt;a class=&quot;p-2 text-dark&quot; href=&quot;/&quot;&gt;Home&lt;/a&gt;\xa                &lt;a class=&quot;p-2 text-dark&quot; href=&quot;/optionals&quot;&gt;Optionals&lt;/a&gt;\xa                &lt;a class=&quot;p-2 text-dark&quot; href=&quot;/reservations&quot;&gt;Reservations&lt;/a&gt;\xa                &lt;a class=&quot;p-2 text-dark&quot; href=&quot;/checkout&quot;&gt;Checkout&lt;/a&gt;\xa            &lt;/nav&gt;\xa        &lt;/div&gt;\xa\xa        &lt;div class=&quot;pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center&quot;&gt;\xa            &lt;h1 class=&quot;display-4&quot;&gt; Home &lt;/h1&gt;\xa            &lt;p class=&quot;lead&quot;&gt;A cheap flight&lt;/p&gt;\xa        &lt;/div&gt;\xa\xa        &lt;div class=&quot;container&quot;&gt;\xa    &lt;h1&gt;Hello ifjetyffhirx!&lt;/h1&gt;\xa    &lt;div class=&quot;card-deck mb-3 text-center&quot;&gt;\xa        &lt;div class=&quot;card mb-4 shadow-sm&quot;&gt;\xa            &lt;div class=&quot;card-header&quot;&gt;\xa                &lt;h4 class=&quot;my-0 font-weight-normal&quot;&gt;Step 1&lt;/h4&gt;\xa            &lt;/div&gt;\xa            &lt;div class=&quot;card-body&quot;&gt;\xa                &lt;h1 class=&quot;card-title pricing-card-title&quot;&gt;Optionals&lt;/h1&gt;\xa                &lt;ul class=&quot;list-unstyled mt-3 mb-4&quot;&gt;\xa                    &lt;li&gt;Request a customized optional&lt;/li&gt;\xa                    &lt;li&gt;or request one made&lt;/li&gt;\xa                    &lt;li&gt;by someone else!&lt;/li&gt;\xa                    &lt;li&gt;Discover the possibilities...&lt;/li&gt;\xa                &lt;/ul&gt;\xa                &lt;a class=&quot;btn btn-lg btn-block btn-primary&quot; href=&quot;/optionals&quot; role=&quot;button&quot;&gt;Manage&lt;/a&gt;\xa            &lt;/div&gt;\xa        &lt;/div&gt;\xa        &lt;div class=&quot;card mb-4 shadow-sm&quot;&gt;\xa            &lt;div class=&quot;card-header&quot;&gt;\xa                &lt;h4 class=&quot;my-0 font-weight-normal&quot;&gt;Step 2&lt;/h4&gt;\xa            &lt;/div&gt;\xa            &lt;div class=&quot;card-body&quot;&gt;\xa                &lt;h1 class=&quot;card-title pricing-card-title&quot;&gt;Reservation&lt;/h1&gt;\xa                &lt;ul class=&quot;list-unstyled mt-3 mb-4&quot;&gt;\xa                    &lt;li&gt;Reserve your flight right now!&lt;/li&gt;\xa                    &lt;li&gt;Seat reservation, online check-in&lt;/li&gt;\xa                    &lt;li&gt;and custom optionals are sold&lt;/li&gt;\xa                    &lt;li&gt;separately.&lt;/li&gt;\xa                &lt;/ul&gt;\xa                &lt;a class=&quot;btn btn-lg btn-block btn-primary&quot; href=&quot;/reservations&quot; role=&quot;button&quot;&gt;Manage&lt;/a&gt;\xa            &lt;/div&gt;\xa        &lt;/div&gt;\xa        &lt;div class=&quot;card mb-4 shadow-sm&quot;&gt;\xa            &lt;div class=&quot;card-header&quot;&gt;\xa                &lt;h4 class=&quot;my-0 font-weight-normal&quot;&gt;Step 3&lt;/h4&gt;\xa            &lt;/div&gt;\xa            &lt;div class=&quot;card-body&quot;&gt;\xa                &lt;h1 class=&quot;card-title pricing-card-title&quot;&gt;Checkout&lt;/h1&gt;\xa                &lt;ul class=&quot;list-unstyled mt-3 mb-4&quot;&gt;\xa                    &lt;li&gt;Confirm your reservation&lt;/li&gt;\xa                    &lt;li&gt;or if you are in a hurry&lt;/li&gt;\xa                    &lt;li&gt;copy the reservation made &lt;/li&gt;\xa                    &lt;li&gt;by someone else.&lt;/li&gt;\xa                &lt;/ul&gt;\xa                &lt;a class=&quot;btn btn-lg btn-block btn-primary&quot; href=&quot;/checkout&quot; role=&quot;button&quot;&gt;Checkout&lt;/a&gt;\xa            &lt;/div&gt;\xa        &lt;/div&gt;\xa    &lt;/div&gt;\xa\xa        &lt;footer class=&quot;mastfoot mt-auto&quot;&gt;\xa            &lt;div class=&quot;inner&quot;&gt;\xa                &lt;p&gt;&amp;copy; 2019-2019 CrashAir, Inc.&lt;/p&gt;\xa            &lt;/div&gt;\xa        &lt;/footer&gt;\xa        &lt;/div&gt;\xa\xa        &lt;!-- Optional JavaScript --&gt;\xa        &lt;!-- jQuery first, then Popper.js, then Bootstrap JS --&gt;\xa        &lt;script src=&quot;/static/js/jquery-3.3.1.slim.min.js&quot; integrity=&quot;sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo&quot; crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;\xa        &lt;script src=&quot;/static/js/popper.min.js&quot; integrity=&quot;sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1&quot; crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;\xa        &lt;script src=&quot;/static/js/bootstrap.min.js&quot; integrity=&quot;sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM&quot; crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;\xa    &lt;/body&gt;\xa&lt;/html&gt;\xa
+				  </span>
+			</div>
+		</td>
+            </tr>
+        </table>
+    </body>
+    <script>
+	// When the user clicks on <div>, open the popup
+	function myFunction(event, id) {
+	  var popup = document.getElementById(id);
+	  if(event.ctrlKey){
+	  	var newWindow = window.open("", "Payload data");
+	  	newWindow.document.write(popup.textContent);
+	  } else{
+	  	alert(popup.textContent);
+	  }
+	//  popup.classList.toggle("show");
+	}
+	</script>
+</html>

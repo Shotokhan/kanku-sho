@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-  
+        scale=1">
+        <link rel="stylesheet" 
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-
+        awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/static/index.css">
+    </head>
+    <body>
+        <h1><center>Streams</center></h1>
+        <form class="example" method="post" action="" 
+         style="margin:auto;width:100%"> <!-- ;max-width:600px -->
+            <label> Fill zero, one or more fields </label>
+            <input type="text" placeholder="Stream number" name="number"><br>
+	    <input type="text" placeholder="ID of the capture file in which the stream is included" name="capture_file_ID"><br>
+	    <input type="text" placeholder="Port of the attacked host (local port)" name="local_port"><br>
+	    <input type="text" placeholder="Port of the evil host (remote port)" name="remote_port"><br>
+    	    <input type="text" placeholder="IP of the evil host (remote IP)" name="remote_IP"><br>
+	    <input type="text" placeholder="Stream ID" name="id"><br>
+	    <label for="type">Flag regex in or out?</label><br>
+	    <select name="type">
+	    					    <option disabled selected value> -- select an option -- </option>
+                                                    <option>regex in</option>
+                                                    <option>regex out</option>
+                                                </select>
+	    <input type="text" placeholder="Stream Protocol" name="protocol"><br>
+            <button type="submit">Search<i class="fa fa-search"></i><br>
+            </button>
+        </form>
+        <p></p>
+        <table style="width:100%">
+            <tr>
+                <th> Stream ID </th>
+                <th> Number </th>
+                <th> Capture file ID </th>
+                <th> Local Host </th>
+                <th> Local Port </th>
+                <th> Remote Host </th>
+                <th> Remote Port </th>
+                <th> Protocol </th>
+                <th> Type </th>
+                <th> Flag Sequence Number </th>
+                <th> Payloads </th>
+            </tr>
+            {% for stream in stream_list %}
+            <tr>
+                <td> {{ stream['id'] }} </td>
+                <td> {{ stream['number'] }} </td>
+                <td> {{ stream['capture_file_ID'] }} </td>
+                <td> {{ stream['local_ip'] }} </td>
+                <td> {{ stream['local_port'] }} </td>
+                <td> {{ stream['remote_ip'] }} </td>
+                <td> {{ stream['remote_port'] }} </td>
+                <td> {{ stream['protocol'] }} </td>
+                <td> {{ stream['type'] }} </td>
+                <td> {{ stream['flag_sn'] }} </td>
+                <td> <form class="intable" action="/show_stream" method="post">
+                    <input type="hidden" name="id" value="{{ stream['id'] }}">
+                    <button type="submit">Click here to show stream data</button>
+                </form> </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>
