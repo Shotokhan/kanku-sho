@@ -3,13 +3,13 @@
 kanku-sho is a tool for the following workflow:
 <br />
 1) Remote traffic capture over SSH, copy of capture files to local filesystem and erasing of the same files on the remote system.
-<br />
+
 2) Analysis of capture files using pyshark, with a filtering based on a regular expression that can be found in TCP/HTTP streams.
-<br />
+
 3) Object relational mapping of the result of the analysis in a SQLite database, using gzip to compress payload data (such as HTML pages).
-<br />
+
 4) Flask interface to query filtered capture data; one of the features of the interface is the possibility to automatically generate python requests/pwntools code from HTTP/TCP streams. Furthermore, streams are also hallmarked by the fact that the regex comes in or goes out from the "attacked" machine.
-<br /> <br />
+<br />
 The remote machine should have SSH enabled, and in order for the remote sniffing to work properly, you have to install an identity file on the remote machine.
 <br />
 The task is easy:
@@ -22,13 +22,13 @@ Then you change the config.JSON file accordingly.<br />
 You can have more workflows operating in parallel on different hosts, either on the same local database or on multiple databases; I suggest to use the same DB because in Flask the configuration file is hard-coded, i.e. you can't pass a configuration file in input, in contrast with the other main modules: they use config.JSON as default, but you can pass another file if you want.
 <br /> <br />
 The main modules are three:
-<br />
+
 1) remote_sniffer.py
-<br />
+
 2) analysis_controller.py
-<br />
+
 3) flask_interface.py
-<br /> <br />
+<br />
 (1) and (2) can be executed together by run_threads.py, but depending on your operating system, there could be issues with pyshark.
 <br /> <br />
 Before using a new database, you have to run init_database.py, which will create a new database with the pre-defined DB schema, with the name defined in config.JSON. The database should be first created with: <br />
