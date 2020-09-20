@@ -66,8 +66,11 @@ def show_stream():
     except (KeyError, IndexError):
         return render_template('show_stream_tcp.html')
     if stream['protocol'] == 'http':
+        xss_escape = lambda s: s.replace("<", "&lt").replace(">", "&gt")
         for payload in stream['payloads']:
             payload['data'] = html.escape(payload['data'])
+            payload['http']['URI'] = xss_escape(payload['http']['URI'])
+            payload['http']['parameters'] = xss_escape(payload['http']['parameters'])
         return render_template('show_stream_http.html', stream=stream)
     else:
         return render_template('show_stream_tcp.html', stream=stream)
