@@ -26,7 +26,6 @@ def read_pcap(pcap_file):
 
 
 def pcap_analysis(pcap, global_config, capture_config):
-    # TODO: timestamp as a string or as a tuple?
     host = global_config['host']
     flag_regex = global_config['flag_regex']
     time_str = capture_config['time_string']
