@@ -20,17 +20,6 @@
     "db_name": "test.db",
     "db_host": "127.0.0.1"
   },
-  "exploitation": {
-    "opponents": [
-      "10.10.1.1",
-      "10.10.2.1"
-    ],
-    "request_limitator_sleep_time": 1
-  },
-  "submission": {
-    "flag_submission_URI": "https://finals.cyberchallenge.it/submit",
-    "team_token": "sTecA0Gm7G0UdteD"
-  },
   "flask": {
     "port": 8000,
     "host": "127.0.0.1",
