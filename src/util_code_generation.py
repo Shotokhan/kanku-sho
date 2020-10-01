@@ -144,7 +144,7 @@ class PwntoolsGenerator(CodeGenerator):
             'response': self.receive_line
         }
         open_session = "remote('{}', {})".format(host, port)
-        super().__init__("pwntools", "session", open_session, "response", generate)
+        super().__init__("pwn", "session", open_session, "response", generate)
 
     def send_line(self, cursor, line):
         instruction = "{}.sendline({})".format(self.session_name, line)
