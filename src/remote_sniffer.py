@@ -23,8 +23,6 @@ def remote_sniffing(global_config, capture_config):
     if local_path[-1] != "/":
         local_path += "/"
     run_with_sudo = capture_config['run_with_sudo']
-    # time_string = capture_config['time_string']
-    # round_time = global_config['round_timeout']
     num_files = capture_config['num_circular_files']
     init_sleep_time = capture_config['initial_sleep_time']
     cap_file_size = capture_config['capture_file_size']
@@ -36,9 +34,6 @@ def remote_sniffing(global_config, capture_config):
     cap_comm = capture_command(port, interface, remote_file_path, run_with_sudo, num_files, cap_file_size)
     ssh_wrapper(global_config, cap_comm)
     while True:
-        # timestamp = time.strftime(time_string, time.localtime())
-        # filename = "{}_{}_{}.pcap".format(prefix, interface, timestamp)
-        # ssh_wrapper(global_config, cap_comm)
         print("Sleep time: {}".format(sleep_time))
         time.sleep(sleep_time)
         start = time.time()
