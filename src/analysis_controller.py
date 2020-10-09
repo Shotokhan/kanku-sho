@@ -35,12 +35,17 @@ def analyze_and_index_capture_files(capture_files, global_config, capture_config
 def greedy_analysis(global_config, capture_config, traffic_db):
     # SQLite handles well one writer, multiple readers
     mutex = Lock()
+    time_str = capture_config['time_string']
+    pcap_folder = capture_config['local_pcap_folder']
+    target_folder = capture_config['local_pcap_backup']
+    preserve_all = capture_config['preserve_all']
     while True:
-        pcap_folder = capture_config['local_pcap_folder']
-        target_folder = capture_config['local_pcap_backup']
         capture_files = get_capture_files(pcap_folder)
-        analyze_and_index_capture_files(capture_files, global_config, capture_config, traffic_db, mutex)
         move_capture_files(target_folder, capture_files)
+        timestamp = "_{}".format(time.strftime(time_str, time.localtime())) if preserve_all else ""
+        new_list = ["{}/{}{}".format(target_folder, cap_file.split("/")[-1], timestamp) for cap_file in capture_files]
+        print("{} capture files queued".format(len(new_list)))
+        analyze_and_index_capture_files(new_list, global_config, capture_config, traffic_db, mutex)
         time.sleep(5)
 
 

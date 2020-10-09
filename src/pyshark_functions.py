@@ -1,5 +1,7 @@
 import json
 import sys
+import time
+
 import pyshark
 from pyshark.capture.capture import TSharkCrashException
 from contextlib import suppress
@@ -29,7 +31,11 @@ def pcap_analysis(pcap, global_config, capture_config):
     host = global_config['host']
     flag_regex = global_config['flag_regex']
     time_str = capture_config['time_string']
-    out = {'timestamp': str(util_regex.search_timestamps(pcap.input_filename, time_str)[0]),
+    try:
+        timestamp = str(util_regex.search_timestamps(pcap.input_filename, time_str)[0])
+    except IndexError:
+        timestamp = time.strftime(time_str, time.localtime())
+    out = {'timestamp': timestamp,
            'user': global_config['user'],
            'host': host,
            'flag_regex': flag_regex,

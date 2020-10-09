@@ -14,10 +14,14 @@
     "local_pcap_backup": "/home/marcofelix98/CyberChallenge/attack_defense/Traffic_analysis/src/Analysis_done",
     "cap_filename_prefix": "remote_VM",
     "run_with_sudo": true,
-    "time_string": "%d_%m_%Y_%H:%M"
+    "time_string": "%d_%m_%Y_%H:%M",
+    "num_circular_files": 20,
+    "initial_sleep_time": 10,
+    "capture_file_size": 2,
+    "preserve_all": false
   },
   "traffic_db": {
-    "db_name": "../test.db"
+    "db_name": "../final.db"
   },
   "flask": {
     "port": 8000,

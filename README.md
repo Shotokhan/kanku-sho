@@ -62,5 +62,7 @@ You can use the interface.py to build some interfaces other than Flask, such as 
 <br /> <br />
 You can also use the code in Generate_test_traffic folder, connecting to some Ubuntu server virtual machine, to test all the modules together and start playing with the interface. If you change the flag regex, you have to run generate_flags.py again, because you need a random_flags file. Install the identity file on the Ubuntu server machine as described before, and run copy_test_utils.sh with parameters user, host and absolute path.
 <br /> <br />
+Note: it is targeted for Linux systems, because of the system calls made by remote_sniffer and analysis_controller; you need to have installed bzip2 and rsync on the analyzer host, and tcpdump on the target host. In addition to that, you need to have installed sqlite3 on the analyzer host.
+<br /> <br />
 In summary, you have many interfaces for this tool, and you can use it to filter and analyse easily TCP (netcat like) and HTTP streams, to discover attack vectors and build replay attacks.
 <br /> <br />

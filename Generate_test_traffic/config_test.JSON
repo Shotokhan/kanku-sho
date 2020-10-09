@@ -11,13 +11,17 @@
     "remote_interface": "any",
     "remote_pcap_folder": "/home/mininet/",
     "local_pcap_folder": "/home/marcofelix98/CyberChallenge/attack_defense/Traffic_analysis",
-    "local_pcap_backup": "/home/marcofelix98/CyberChallenge/attack_defense/Traffic_analysis/Analysis_done",
+    "local_pcap_backup": "/home/marcofelix98/CyberChallenge/attack_defense/Traffic_analysis/Generate_test_traffic",
     "cap_filename_prefix": "capture",
     "run_with_sudo": true,
-    "time_string": "%d_%m_%Y_%H:%M:%S"
+    "time_string": "%d_%m_%Y_%H:%M:%S",
+    "num_circular_files": 5,
+    "initial_sleep_time": 10,
+    "capture_file_size": 1,
+    "preserve_all": false
   },
   "traffic_db": {
-    "db_name": "test.db",
+    "db_name": "../test.db",
     "db_host": "127.0.0.1"
   },
   "flask": {

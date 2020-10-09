@@ -60,8 +60,13 @@ def insert_capture_header(conn, capture_dict, time_string):
     query = 'INSERT INTO capture_file (timestamp, user, host, flag_regex, interface) VALUES (?, ?, ?, ?, ?);'
     q_format = (str_to_time_int(capture_dict['timestamp'], time_string), capture_dict['user'],
                 capture_dict['host'], capture_dict['flag_regex'], capture_dict['interface'])
-    cap_id = query_db(conn, query, q_format)
-    conn.commit()
+    try:
+        cap_id = query_db(conn, query, q_format)
+        conn.commit()
+    except sqlite3.Error:
+        query = 'SELECT id FROM capture_file WHERE' \
+                ' timestamp=? and user=? and host=? and flag_regex=? and interface=?;'
+        cap_id = query_db(conn, query, q_format)[0]
     return cap_id
 
 
