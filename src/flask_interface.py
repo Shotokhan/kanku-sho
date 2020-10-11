@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, Response
+from flask import Flask, render_template, request, Response, redirect
 import json
 import html
 from interface import get_capture_files, get_streams, get_stream_with_payloads
@@ -21,6 +21,10 @@ def pop_null(params_dict):
     return new_params
 
 
+def dict_to_get_params(params):
+    return "&".join(["{}={}".format(key, params[key]) for key in list(params.keys())])
+
+
 @app.route("/")
 def main():
     return render_template('index.html')
@@ -31,19 +35,23 @@ def search_capture():
     if request.method == 'POST':
         params = request.form.to_dict()
         params = pop_null(params)
-        if "low_timestamp" in list(params.keys()):
-            try:
-                params['low_timestamp'] = str_to_time_int(params['low_timestamp'], "%Y-%m-%d")
-            except ValueError:
-                params.pop('low_timestamp')
-        if "high_timestamp" in list(params.keys()):
-            try:
-                params['high_timestamp'] = str_to_time_int(params['high_timestamp'], "%Y-%m-%d")
-            except ValueError:
-                params.pop('high_timestamp')
-        cap_files = get_capture_files(db_name, params)
-        return render_template('search_capture.html', cap_list=cap_files)
-    return render_template('search_capture.html')
+        return redirect("/search_capture?{}".format(dict_to_get_params(params)))
+    elif request.method == 'GET':
+        params = request.args.to_dict()
+    else:
+        return render_template('search_capture.html', params={})
+    if "low_timestamp" in list(params.keys()):
+        try:
+            params['low_timestamp'] = str_to_time_int(params['low_timestamp'], "%Y-%m-%d")
+        except ValueError:
+            params.pop('low_timestamp')
+    if "high_timestamp" in list(params.keys()):
+        try:
+            params['high_timestamp'] = str_to_time_int(params['high_timestamp'], "%Y-%m-%d")
+        except ValueError:
+            params.pop('high_timestamp')
+    cap_files = get_capture_files(db_name, params)
+    return render_template('search_capture.html', cap_list=cap_files, params=params)
 
 
 @app.route("/search_stream", methods=['GET', 'POST'])
@@ -51,15 +59,25 @@ def search_stream():
     if request.method == 'POST':
         params = request.form.to_dict()
         params = pop_null(params)
-        streams = get_streams(db_name, params)
-        return render_template('search_stream.html', stream_list=streams)
-    return render_template('search_stream.html')
+        return redirect("/search_stream?{}".format(dict_to_get_params(params)))
+    elif request.method == 'GET':
+        params = request.args.to_dict()
+    else:
+        return render_template('search_stream.html', params={})
+    streams = get_streams(db_name, params)
+    return render_template('search_stream.html', stream_list=streams, params=params)
 
 
-@app.route("/show_stream", methods=['POST'])
+@app.route("/show_stream", methods=['GET', 'POST'])
 def show_stream():
-    params = request.form.to_dict()
-    params = pop_null(params)
+    if request.method == 'POST':
+        params = request.form.to_dict()
+        params = pop_null(params)
+        return redirect("/show_stream?{}".format(dict_to_get_params(params)))
+    elif request.method == 'GET':
+        params = request.args.to_dict()
+    else:
+        return "Method not allowed"
     try:
         stream_id = params['id']
         stream = get_stream_with_payloads(db_name, stream_id, plaintext=True)
@@ -76,10 +94,16 @@ def show_stream():
         return render_template('show_stream_tcp.html', stream=stream)
 
 
-@app.route("/generate_code_from_stream", methods=['POST'])
+@app.route("/generate_code_from_stream", methods=['GET', 'POST'])
 def generate_code():
-    params = request.form.to_dict()
-    params = pop_null(params)
+    if request.method == 'POST':
+        params = request.form.to_dict()
+        params = pop_null(params)
+        return redirect("/generate_code_from_stream?{}".format(dict_to_get_params(params)))
+    elif request.method == 'GET':
+        params = request.args.to_dict()
+    else:
+        return "Method not allowed"
     try:
         stream_id = params['stream_id']
         stream = get_stream_with_payloads(db_name, stream_id)

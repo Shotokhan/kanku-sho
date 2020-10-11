@@ -1,5 +1,6 @@
  body {
   font-family: Arial;
+  background: #c2b280;
 }
 * {
   box-sizing: border-box;
@@ -18,7 +19,7 @@ form.example select {
   border: 1px solid grey;
   float: left;
   width: 80%;
-  background: #f1f1f1;
+  background: #f1f1f1; 
 }
 form.example label {
   padding: 10px;

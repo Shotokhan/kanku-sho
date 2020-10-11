@@ -14,12 +14,12 @@
          style="margin:auto;width:100%"> <!-- ;max-width:600px -->
             <label> Fill zero, one or more fields </label>
             <label for="low_timestamp">Date before capture file</label><br>
-            <input type="date" name="low_timestamp" id="low_timestamp"><br>
+            <input type="date" name="low_timestamp" id="low_timestamp" value="{{ params['low_timestamp'] }}"><br>
             <label for="high_timestamp">Date after capture file</label><br>
-            <input type="date" name="high_timestamp" id="high_timestamp"><br>
-            <input type="text" placeholder="User of the system on which the capture was done" name="user"><br>
-	    <input type="text" placeholder="Host of the system on which the capture was done" name="host"><br>
-	    <input type="text" placeholder="ID of the capture file" name="id"><br>
+            <input type="date" name="high_timestamp" id="high_timestamp" value="{{ params['high_timestamp'] }}"><br>
+            <input type="text" placeholder="User of the system on which the capture was done" name="user" value="{{ params['user'] }}"><br>
+	    <input type="text" placeholder="Host of the system on which the capture was done" name="host" value="{{ params['host'] }}"><br>
+	    <input type="text" placeholder="ID of the capture file" name="id" value="{{ params['id'] }}"><br>
             <button type="submit">Search<i class="fa fa-search"></i><br>
             </button>
         </form>
