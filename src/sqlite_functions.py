@@ -174,6 +174,33 @@ def query_payloads(db_name, stream_id, stream_protocol):
     return query_db(conn, query, q_format)
 
 
+def query_services_stats(db_name):
+    conn = open_database(db_name)
+    query = "SELECT local_port, protocol, count(id) FROM stream WHERE type = 'regex out' GROUP BY local_port;"
+    return query_db(conn, query)
+
+
+def query_possible_http_exploits(db_name):
+    conn = open_database(db_name)
+    query = "SELECT s.local_port, p.sequence_number, h.uri, h.method, h.parameters, s.id FROM payload p " \
+            "INNER JOIN stream s ON p.stream_id = s.id " \
+            "INNER JOIN http h ON p.id = h.payload_id " \
+            "WHERE p.type = 'request' AND s.protocol = 'http' AND s.type = 'regex out' " \
+            "GROUP BY s.local_port, p.sequence_number, h.uri, h.method " \
+            "ORDER BY CAST(s.local_port AS INTEGER);"
+    return query_db(conn, query)
+
+
+def query_possible_tcp_exploits(db_name):
+    conn = open_database(db_name)
+    query = "SELECT s.local_port, p.sequence_number, p.data, s.id FROM payload p " \
+            "INNER JOIN stream s ON p.stream_id = s.id " \
+            "WHERE p.type = 'request' AND s.protocol = 'tcp' AND s.type = 'regex out' " \
+            "GROUP BY s.local_port, p.sequence_number " \
+            "ORDER BY CAST(s.local_port AS INTEGER);"
+    return query_db(conn, query)
+
+
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Error: usage python sqlite_functions.py <json_file>")

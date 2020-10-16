@@ -1,9 +1,11 @@
-from flask import Flask, render_template, request, Response, redirect
+from flask import Flask, render_template, request, Response
 import json
 import html
-from interface import get_capture_files, get_streams, get_stream_with_payloads
+from interface import get_capture_files, get_streams, get_stream_with_payloads, get_services_stats, \
+    get_possible_http_exploits, get_possible_tcp_exploits
 from util_code_generation import generate_from_stream
 from sqlite_functions import str_to_time_int
+from util_flask import redirect_post_to_get
 
 
 app = Flask(__name__)
@@ -11,18 +13,6 @@ app = Flask(__name__)
 with open('config.JSON', 'r') as f:
     config = json.load(f)
 db_name = config['traffic_db']['db_name']
-
-
-def pop_null(params_dict):
-    new_params = {}
-    for key in list(params_dict.keys()):
-        if params_dict[key] != '':
-            new_params[key] = params_dict[key]
-    return new_params
-
-
-def dict_to_get_params(params):
-    return "&".join(["{}={}".format(key, params[key]) for key in list(params.keys())])
 
 
 @app.route("/")
@@ -33,9 +23,7 @@ def main():
 @app.route("/search_capture", methods=['GET', 'POST'])
 def search_capture():
     if request.method == 'POST':
-        params = request.form.to_dict()
-        params = pop_null(params)
-        return redirect("/search_capture?{}".format(dict_to_get_params(params)))
+        return redirect_post_to_get(request)
     elif request.method == 'GET':
         params = request.args.to_dict()
     else:
@@ -57,9 +45,7 @@ def search_capture():
 @app.route("/search_stream", methods=['GET', 'POST'])
 def search_stream():
     if request.method == 'POST':
-        params = request.form.to_dict()
-        params = pop_null(params)
-        return redirect("/search_stream?{}".format(dict_to_get_params(params)))
+        return redirect_post_to_get(request)
     elif request.method == 'GET':
         params = request.args.to_dict()
     else:
@@ -71,9 +57,7 @@ def search_stream():
 @app.route("/show_stream", methods=['GET', 'POST'])
 def show_stream():
     if request.method == 'POST':
-        params = request.form.to_dict()
-        params = pop_null(params)
-        return redirect("/show_stream?{}".format(dict_to_get_params(params)))
+        return redirect_post_to_get(request)
     elif request.method == 'GET':
         params = request.args.to_dict()
     else:
@@ -97,9 +81,7 @@ def show_stream():
 @app.route("/generate_code_from_stream", methods=['GET', 'POST'])
 def generate_code():
     if request.method == 'POST':
-        params = request.form.to_dict()
-        params = pop_null(params)
-        return redirect("/generate_code_from_stream?{}".format(dict_to_get_params(params)))
+        return redirect_post_to_get(request)
     elif request.method == 'GET':
         params = request.args.to_dict()
     else:
@@ -111,6 +93,24 @@ def generate_code():
         return Response(generated_code, mimetype='text/plain')
     except (KeyError, IndexError):
         return Response('Error: invalid input', mimetype='text/plain')
+
+
+@app.route("/show_insights", methods=['GET'])
+def show_insights():
+    insights = get_services_stats(db_name)
+    return render_template('insights.html', insights=insights, name="Insights")
+
+
+@app.route("/show_http_exploits", methods=['GET'])
+def show_http_exploits():
+    insights = get_possible_http_exploits(db_name)
+    return render_template('insights.html', insights=insights, name="Possible HTTP exploits")
+
+
+@app.route("/show_tcp_exploits", methods=['GET'])
+def show_tcp_exploits():
+    insights = get_possible_tcp_exploits(db_name)
+    return render_template('insights.html', insights=insights, name="Possible TCP exploits")
 
 
 if __name__ == "__main__":
