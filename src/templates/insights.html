@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-  
+        scale=1">
+        <link rel="stylesheet" 
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-
+        awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/static/index.css">
+    </head>
+    <body>
+        <h1><center>{{ name }}</center></h1>
+        <p></p>
+        <form class="example" action="/" method="get" style="margin:auto;width:100%">
+			<button type="submit">Home</button>
+        </form>
+        <form class="example" method="get" action=""
+         style="margin:auto;width:100%"> <!-- ;max-width:600px -->
+            <input type="text" placeholder="Limit on n. of rows (default 1000)" name="limit" value="{{ limit }}"><br>
+            <input type="text" placeholder="Offset (use together with limit)" name="offset" value="{{ offset }}"><br>
+            <button type="submit">Search<i class="fa fa-search"></i><br></button>
+        </form>
+        {% set payload_id = [] %}
+        {% if insights|length > 0 %}
+        <table style="width:100%" >
+            <tr>
+            	{% for key in insights[0].keys() %}
+		            <th> {{ key }} </th>
+		        {% endfor %}
+            </tr>
+            {% for insight in insights %}
+            <tr>
+            	{% for key in insight.keys() %}
+                    {% if key == "Related" %}
+                        <td> <form class="intable" action="{{ insight['Related']['action'] }}" method="post">
+                            <input type="hidden" name="{{ insight['Related']['query_parameter'] }}" value="{{ insight['Related']['value'] }}">
+                            <button type="submit">Related {{ insight['Related']['name'] }}</button>
+                        </form> </td>
+			        {% else %}
+                        {% if insight[key]|string|length > 100 %}
+                            <td>
+                                    <div class="popup" onclick="clickFunction(event, {{ payload_id|length }})">Show payload data
+                                          <span class="popuptext" id="{{ payload_id|length }}">
+                                            {{ insight[key] }}
+                                          </span>
+                                    </div>
+                            </td>
+                            {% if payload_id.append(1) %}{% endif %}
+                        {% else %}
+				            <td> {{ insight[key] }} </td>
+                        {% endif %}
+			        {% endif %}
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </body>
+    <script src="/static/http_payload.js"></script>
+</html>

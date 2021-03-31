@@ -10,19 +10,28 @@
     </head>
     <body>
         <h1><center>Capture Files</center></h1>
-        <form class="example" method="post" action="" 
-         style="margin:auto;width:100%"> <!-- ;max-width:600px -->
-            <label> Fill zero, one or more fields </label>
-            <label for="low_timestamp">Date before capture file</label><br>
-            <input type="date" name="low_timestamp" id="low_timestamp" value="{{ params['low_timestamp'] }}"><br>
-            <label for="high_timestamp">Date after capture file</label><br>
-            <input type="date" name="high_timestamp" id="high_timestamp" value="{{ params['high_timestamp'] }}"><br>
-            <input type="text" placeholder="User of the system on which the capture was done" name="user" value="{{ params['user'] }}"><br>
-	    <input type="text" placeholder="Host of the system on which the capture was done" name="host" value="{{ params['host'] }}"><br>
-	    <input type="text" placeholder="ID of the capture file" name="id" value="{{ params['id'] }}"><br>
-            <button type="submit">Search<i class="fa fa-search"></i><br>
-            </button>
+        <form class="example" action="/" method="get" style="margin:auto;width:100%">
+			<button type="submit">Home</button>
         </form>
+        <div id="bigmenu">
+            <form class="example" method="post" action=""
+             style="margin:auto;width:100%"> <!-- ;max-width:600px -->
+                <label> Fill zero, one or more fields </label>
+                <label for="low_timestamp">Date before capture file</label><br>
+                <input type="date" name="low_timestamp" id="low_timestamp" value="{{ params['low_timestamp'] }}"><br>
+                <label for="high_timestamp">Date after capture file</label><br>
+                <input type="date" name="high_timestamp" id="high_timestamp" value="{{ params['high_timestamp'] }}"><br>
+                <input type="text" placeholder="User of the system on which the capture was done" name="user" value="{{ params['user'] }}"><br>
+                <input type="text" placeholder="Host of the system on which the capture was done" name="host" value="{{ params['host'] }}"><br>
+                <input type="text" placeholder="ID of the capture file" name="id" value="{{ params['id'] }}"><br>
+                <input type="text" placeholder="Limit on n. of rows" name="limit" value="{{ params['limit'] }}"><br>
+                <input type="text" placeholder="Offset (use together with limit)" name="offset" value="{{ params['offset'] }}"><br>
+                <button type="submit">Search<i class="fa fa-search"></i><br></button>
+            </form>
+        </div>
+        <div id="bigmenubutton">
+            <button onclick="changeMenuDisplay()">Show menu</button>
+        </div>
         <p></p>
         <table style="width:100%">
             <tr>
@@ -50,4 +59,5 @@
             {% endfor %}
         </table>
     </body>
+    <script src="/static/http_payload.js"></script>
 </html>

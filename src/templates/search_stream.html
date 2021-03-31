@@ -10,36 +10,46 @@
     </head>
     <body>
         <h1><center>Streams</center></h1>
-        <form class="example" method="post" action="" 
-         style="margin:auto;width:100%"> <!-- ;max-width:600px -->
-            <label> Fill zero, one or more fields </label>
-            <input type="text" placeholder="Stream number" name="number"><br>
-	    <input type="text" placeholder="ID of the capture file in which the stream is included" name="capture_file_ID" value="{{ params['capture_file_ID'] }}"><br>
-	    <input type="text" placeholder="Port of the attacked host (local port)" name="local_port" value="{{ params['local_port'] }}"><br>
-	    <input type="text" placeholder="Port of the evil host (remote port)" name="remote_port" value="{{ params['remote_port'] }}"><br>
-    	    <input type="text" placeholder="IP of the evil host (remote IP)" name="remote_IP" value="{{ params['remote_IP'] }}"><br>
-	    <input type="text" placeholder="Stream ID" name="id" value="{{ params['id'] }}"><br>
-	    <label for="type">Flag regex in or out?</label><br>
-	    <select name="type">
-            {% if params['type'] %}
-                <option value=""> no preference </option>
-                {% if params['type'] == 'regex in' %}
-                    <option selected>{{ params['type'] }}</option>
-                    <option>regex out</option>
-                {% else %}
-                    <option>regex in</option>
-                    <option selected>{{ params['type'] }}</option>
-                {% endif %}
-            {% else %}
-                <option disabled selected value> -- select an option -- </option>
-                <option>regex in</option>
-                <option>regex out</option>
-            {% endif %}
-        </select>
-	    <input type="text" placeholder="Stream Protocol" name="protocol" value="{{ params['protocol'] }}"><br>
-            <button type="submit">Search<i class="fa fa-search"></i><br>
-            </button>
+        <form class="example" action="/" method="get" style="margin:auto;width:100%">
+			<button type="submit">Home</button>
         </form>
+        <div id="bigmenu">
+            <form class="example" method="post" action=""
+             style="margin:auto;width:100%"> <!-- ;max-width:600px -->
+                <label> Fill zero, one or more fields </label>
+                <input type="text" placeholder="Stream number" name="number"><br>
+            <input type="text" placeholder="ID of the capture file in which the stream is included" name="capture_file_ID" value="{{ params['capture_file_ID'] }}"><br>
+            <input type="text" placeholder="Port of the attacked host (local port)" name="local_port" value="{{ params['local_port'] }}"><br>
+            <input type="text" placeholder="Port of the evil host (remote port)" name="remote_port" value="{{ params['remote_port'] }}"><br>
+                <input type="text" placeholder="IP of the evil host (remote IP)" name="remote_IP" value="{{ params['remote_IP'] }}"><br>
+            <input type="text" placeholder="Stream ID" name="id" value="{{ params['id'] }}"><br>
+            <label for="type">Flag regex in or out?</label><br>
+            <select name="type">
+                {% if params['type'] %}
+                    <option value=""> no preference </option>
+                    {% if params['type'] == 'regex in' %}
+                        <option selected>{{ params['type'] }}</option>
+                        <option>regex out</option>
+                    {% else %}
+                        <option>regex in</option>
+                        <option selected>{{ params['type'] }}</option>
+                    {% endif %}
+                {% else %}
+                    <option disabled selected value> -- select an option -- </option>
+                    <option>regex in</option>
+                    <option>regex out</option>
+                    <option></option>
+                {% endif %}
+            </select>
+            <input type="text" placeholder="Stream Protocol" name="protocol" value="{{ params['protocol'] }}"><br>
+            <input type="text" placeholder="Limit on n. of rows" name="limit" value="{{ params['limit'] }}"><br>
+            <input type="text" placeholder="Offset (use together with limit)" name="offset" value="{{ params['offset'] }}"><br>
+            <button type="submit">Search<i class="fa fa-search"></i><br></button>
+            </form>
+        </div>
+        <div id="bigmenubutton">
+            <button onclick="changeMenuDisplay()">Show menu</button>
+        </div>
         <p></p>
         <table style="width:100%">
             <tr>
@@ -75,4 +85,5 @@
             {% endfor %}
         </table>
     </body>
+    <script src="/static/http_payload.js"></script>
 </html>

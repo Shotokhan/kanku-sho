@@ -5,6 +5,23 @@
 * {
   box-sizing: border-box;
 }
+#bigmenubutton button {
+  float: left;
+  width: 20%;
+  padding: 10px;
+  background: #2196F3;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none;
+  cursor: pointer;
+}
+#bigmenubutton button:hover {
+  background: #0b7dda;
+}
+#bigmenu {
+  display: none;
+}
 form.example input {
   padding: 10px;
   font-size: 17px;

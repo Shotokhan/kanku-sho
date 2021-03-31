@@ -103,14 +103,20 @@ def show_insights():
 
 @app.route("/show_http_exploits", methods=['GET'])
 def show_http_exploits():
-    insights = get_possible_http_exploits(db_name)
-    return render_template('insights.html', insights=insights, name="Possible HTTP exploits")
+    params = request.args.to_dict()
+    limit, offset = params.get('limit'), params.get('offset')
+    insights = get_possible_http_exploits(db_name, limit, offset)
+    return render_template('insights.html', insights=insights, name="Possible HTTP exploits", limit=limit or 1000,
+                           offset=offset or "")
 
 
 @app.route("/show_tcp_exploits", methods=['GET'])
 def show_tcp_exploits():
-    insights = get_possible_tcp_exploits(db_name)
-    return render_template('insights.html', insights=insights, name="Possible TCP exploits")
+    params = request.args.to_dict()
+    limit, offset = params.get('limit'), params.get('offset')
+    insights = get_possible_tcp_exploits(db_name, limit, offset)
+    return render_template('insights.html', insights=insights, name="Possible TCP exploits", limit=limit or 1000,
+                           offset=offset or "")
 
 
 if __name__ == "__main__":

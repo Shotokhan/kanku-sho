@@ -46,8 +46,7 @@ pip install -r requirements.txt
 <br /> To build requirements.txt, I used the following command, and I suggest to you to use the same command if you make some changes to the source code:
 <br />
 pip freeze > requirements.txt <br />
-<br /> Since I used this tool in some attack/defense CTF, there are some requirements which are not strictly necessary, such as BeautifulSoup: I used it to write some exploits against web services. So, if you want the minimal set of requirements, maybe with the latest version, I suggest you to erase requirements.txt, open the project with some IDE like PyCharm (Community Edition) and let the IDE find the requirements for you.
-<br /> <br />
+
 You are not forced to run all the main modules simultaneously: you could also take some traffic files you already have, put them in a folder, run analysis_controller.py and wait for the database to be ready; then you open flask_interface.py (you can also run the interface while the analysis is in progress) and gain insights from the analysis.
 <br /> <br />
 You can also connect directly to the sqlite database, see the DB schema, which is similar to the JSON schema.

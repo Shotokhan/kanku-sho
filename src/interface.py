@@ -50,8 +50,10 @@ def get_services_stats(db_name):
     return dict_stats
 
 
-def get_possible_http_exploits(db_name):
-    exploits = query_possible_http_exploits(db_name)
+def get_possible_http_exploits(db_name, limit=None, offset=None):
+    if limit is None:
+        limit = 1000
+    exploits = query_possible_http_exploits(db_name, limit, offset)
     clean = lambda r: urllib.parse.unquote_plus(r)
     dict_http_exploits = [{"local_port": row[0], "sequence_number": row[1], "uri": clean(row[2]), "method": row[3],
                            "parameters": clean(row[4]), "Related": {"name": "Stream",
@@ -61,8 +63,10 @@ def get_possible_http_exploits(db_name):
     return dict_http_exploits
 
 
-def get_possible_tcp_exploits(db_name):
-    exploits = query_possible_tcp_exploits(db_name)
+def get_possible_tcp_exploits(db_name, limit=None, offset=None):
+    if limit is None:
+        limit = 1000
+    exploits = query_possible_tcp_exploits(db_name, limit, offset)
     dec = lambda data: decode_raw(decompress_blob(data), printable=True)
     dict_tcp_exploits = [{"local_port": row[0], "sequence_number": row[1], "payload": dec(row[2]),
                           "Related": {"name": "Stream", "value": row[3], "query_parameter": "id",

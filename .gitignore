@@ -1,0 +1,12 @@
+Not_for_git
+final.db
+remote_VM_ssh_id
+remote_VM_ssh_id.pub
+test.db
+venv
+.idea
+__pycache__
+src/extract_dumps.sh
+src/config.JSON
+src/Analysis_done/
+!src/Analysis_done/.gitkeep

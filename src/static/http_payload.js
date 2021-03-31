@@ -14,3 +14,15 @@ function htmlDecode(input) {
   var doc = new DOMParser().parseFromString(input, "text/html");
   return doc.documentElement.textContent;
 }
+
+function changeMenuDisplay() {
+    var menu = document.getElementById("bigmenu");
+    var menu_button = document.getElementById("bigmenubutton");
+    if (menu.style.display === "none") {
+        menu.style.display = "block";
+        menu_button.innerHTML = menu_button.innerHTML.replace("Show", "Hide");
+    } else {
+        menu.style.display = "none";
+        menu_button.innerHTML = menu_button.innerHTML.replace("Hide", "Show");
+    }
+}

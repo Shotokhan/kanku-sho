@@ -97,8 +97,20 @@ def insert_http_header(conn, http, payload_id):
     return http_id
 
 
-def query_db(conn, query, q_format=None):
+def query_db(conn, query, q_format=None, additional=None):
+    # additional is to add ORDER BY or LIMIT clauses in some hard cases;
+    # add placeholders before calling this function
     cursor = conn.cursor()
+    if additional is not None:
+        if additional[0] != ' ':
+            additional = ' ' + additional
+        if additional[-1] == ';':
+            additional = additional[:-1]
+        if 'LIMIT' in query:
+            edit_pos = query.find(' LIMIT')
+        else:
+            edit_pos = -1
+        query = query[:edit_pos] + additional + query[edit_pos:]
     try:
         if q_format is not None:
             cursor.execute(query, q_format)
@@ -121,9 +133,28 @@ def build_query_with_placeholders(base_query, conds, params):
     # params = {"low_timestamp": 123456789}
     # note that a date must be converted to an integer timestamp
     try:
-        checks = [conds[param] for param in sorted(list(params.keys()))]
-        query = base_query + " WHERE " + " AND ".join(checks) + ";"
-        q_format = tuple([value for value in [params[param] for param in sorted(list(params.keys()))]])
+        _keys = sorted(set(params.keys()).intersection(set(conds.keys())))
+        checks = [conds[param] for param in _keys]
+        query = base_query
+        if len(checks) > 0:
+            query += " WHERE " + " AND ".join(checks)
+        if not params.get('limit'):
+            params['limit'] = 1000
+        try:
+            _limit = int(params['limit'])
+            query += " LIMIT ?"
+            _keys.append("limit")
+            if params.get('offset'):
+                try:
+                    _offset = int(params['offset'])
+                    query += " OFFSET ?"
+                    _keys.append("offset")
+                except ValueError:
+                    pass
+        except ValueError:
+            pass
+        query += ";"
+        q_format = tuple([value for value in [params[param] for param in _keys]])
     except KeyError:
         print("KeyError: params = {}".format(params), file=sys.stderr)
         query = base_query + ";"
@@ -131,15 +162,15 @@ def build_query_with_placeholders(base_query, conds, params):
     return query, q_format
 
 
-def do_query_with_placeholders(db_name, base_query, conds, params=None):
+def do_query_with_placeholders(db_name, base_query, conds, params=None, additional=None):
     if params is None:
         params = {}
     conn = open_database(db_name)
     if len(list(params.keys())) > 0:
         query, q_format = build_query_with_placeholders(base_query, conds, params)
-        result = query_db(conn, query, q_format)
+        result = query_db(conn, query, q_format, additional)
     else:
-        result = query_db(conn, base_query + ";")
+        result = query_db(conn, base_query + ";", additional=additional)
     return result
 
 
@@ -148,7 +179,7 @@ def query_capture_files(db_name, params=None):
                  "interface FROM capture_file"
     conds = {"low_timestamp": "timestamp > ?", "high_timestamp": "timestamp < ?", "user": "user = ?",
              "host": "host = ?", "id": "id = ?"}
-    return do_query_with_placeholders(db_name, base_query, conds, params)
+    return do_query_with_placeholders(db_name, base_query, conds, params, "ORDER BY timestamp DESC")
 
 
 def query_streams(db_name, params=None):
@@ -158,7 +189,7 @@ def query_streams(db_name, params=None):
     conds = {"number": "s.number = ?", "capture_file_ID": "s.capture_file_ID = ?",
              "local_port": "s.local_port = ?", "remote_port": "s.remote_port = ?", "id": "s.id = ?",
              "remote_IP": "s.remote_IP = ?", "type": "s.type = ?", "protocol": "s.protocol = ?"}
-    return do_query_with_placeholders(db_name, base_query, conds, params)
+    return do_query_with_placeholders(db_name, base_query, conds, params, "ORDER BY c.id DESC, s.id DESC")
 
 
 def query_payloads(db_name, stream_id, stream_protocol):
@@ -180,7 +211,7 @@ def query_services_stats(db_name):
     return query_db(conn, query)
 
 
-def query_possible_http_exploits(db_name):
+def query_possible_http_exploits(db_name, limit=None, offset=None):
     conn = open_database(db_name)
     query = "SELECT s.local_port, p.sequence_number, h.uri, h.method, h.parameters, s.id FROM payload p " \
             "INNER JOIN stream s ON p.stream_id = s.id " \
@@ -188,17 +219,47 @@ def query_possible_http_exploits(db_name):
             "WHERE p.type = 'request' AND s.protocol = 'http' AND s.type = 'regex out' " \
             "GROUP BY s.local_port, p.sequence_number, h.uri, h.method " \
             "ORDER BY CAST(s.local_port AS INTEGER);"
-    return query_db(conn, query)
+    q_format, additional = None, None
+    if limit is not None:
+        try:
+            _limit = int(limit)
+            q_format, additional = [_limit], "LIMIT ?"
+            if offset is not None:
+                try:
+                    _offset = int(offset)
+                    q_format.append(_offset)
+                    additional += " OFFSET ?"
+                except ValueError:
+                    pass
+            q_format = tuple(q_format)
+        except ValueError:
+            pass
+    return query_db(conn, query, q_format, additional)
 
 
-def query_possible_tcp_exploits(db_name):
+def query_possible_tcp_exploits(db_name, limit=1000, offset=None):
     conn = open_database(db_name)
     query = "SELECT s.local_port, p.sequence_number, p.data, s.id FROM payload p " \
             "INNER JOIN stream s ON p.stream_id = s.id " \
             "WHERE p.type = 'request' AND s.protocol = 'tcp' AND s.type = 'regex out' " \
             "GROUP BY s.local_port, p.sequence_number " \
             "ORDER BY CAST(s.local_port AS INTEGER);"
-    return query_db(conn, query)
+    q_format, additional = None, None
+    if limit is not None:
+        try:
+            _limit = int(limit)
+            q_format, additional = [_limit], "LIMIT ?"
+            if offset is not None:
+                try:
+                    _offset = int(offset)
+                    q_format.append(_offset)
+                    additional += " OFFSET ?"
+                except ValueError:
+                    pass
+            q_format = tuple(q_format)
+        except ValueError:
+            pass
+    return query_db(conn, query, q_format, additional)
 
 
 if __name__ == "__main__":
