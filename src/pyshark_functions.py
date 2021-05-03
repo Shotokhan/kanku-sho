@@ -46,6 +46,7 @@ def pcap_analysis(pcap, global_config, capture_config):
 
 def read_http(http_pkt, _placeholder=None):
     out = {'http': {'method': "", 'URI': "", 'parameters': {}, 'status_code': ""}, 'type': "", 'data': b''}
+    tcp_pkt = http_pkt.tcp
     http_pkt = http_pkt.http
     if is_http_request(http_pkt):
         out['http']['method'] = str(http_pkt.request_method)
@@ -53,11 +54,31 @@ def read_http(http_pkt, _placeholder=None):
         out['type'] = 'request'
         if is_http_post_or_put(http_pkt):
             out['http']['parameters'] = export_parameters(http_pkt)
+        try:
+            full_data = decode_raw(str(tcp_pkt.payload.raw_value))
+            token = '\r\n\r\n'  # http standard, but someone doesn't follow it
+            # only need headers here
+            try:
+                headers = full_data.split(token)[0]
+                out['data'] = headers
+            except KeyError:
+                token = '\n\n'
+                try:
+                    headers = full_data.split(token)[0]
+                    out['data'] = headers
+                except KeyError:
+                    out['data'] = full_data
+        except AttributeError:
+            out['data'] = ""
+        out['data'] = encode_raw(out['data'])
     else:
         out['type'] = 'response'
         if is_a_response_object(http_pkt):
             try:
-                out['data'] = encode_raw(str(http_pkt.file_data))
+                # out['data'] = encode_raw(str(http_pkt.file_data))
+                # headers + file_data
+                t1, t2 = '\n\n', '\r\n\r\n'
+                out['data'] = encode_raw(decode_raw(str(tcp_pkt.payload.raw_value)).replace(t1, t2))
             except AttributeError:
                 out['data'] = encode_raw(str(""))
             out['http']['status_code'] = str(http_pkt.response_code)

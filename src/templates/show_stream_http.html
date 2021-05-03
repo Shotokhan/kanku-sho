@@ -27,13 +27,31 @@
                         <th> URI </th>
                         <th> Method </th>
                         <th> Parameters </th>
+                        <th> Headers </th>
                     </tr>
                     <tr>
                         <td> {{ stream['remote_ip'] }}:{{ stream['remote_port'] }}</td>
                         <td> {{ stream['local_ip'] }}:{{ stream['local_port'] }} </td>
                         <td> {{ payload['http']['URI'] }} </td>
                         <td> {{ payload['http']['method'] }} </td>
-                        <td> {{ payload['http']['parameters'] }} </td>
+                        {% if payload['http']['parameters']|length > 100 %}
+                            <td>
+                                <div class="popup" onclick="clickFunction(event, {{ 4 * payload['id'] }})">Show parameters
+                                      <span class="popuptext" id="{{ 4 * payload['id'] }}">
+                                        {{ payload['data'] }}
+                                      </span>
+                                </div>
+                            </td>
+                        {% else %}
+                            <td> {{ payload['http']['parameters'] }} </td>
+                        {% endif %}
+                        <td>
+                            <div class="popup" onclick="clickFunction(event, {{ 4 * payload['id'] + 1 }})">Show headers
+                                  <span class="popuptext" id="{{ 4 * payload['id'] + 1 }}">
+                                    {{ payload['data'] }}
+                                  </span>
+                            </div>
+                        </td>
                     </tr>
                 {% else %}
                     <tr>
@@ -42,6 +60,7 @@
                         <th> Status Code </th>
                         <th> Before Flag </th>
                         <th> Data </th>
+                        <th> Headers </th>
                     </tr>
                     <tr>
                         <td> {{ stream['local_ip'] }}:{{ stream['local_port'] }} </td>
@@ -49,9 +68,16 @@
                         <td> {{ payload['http']['status_code'] }} </td>
                         <td> {{ payload['sequence_number'] < stream['flag_sn'] }} </td>
                         <td>
-                            <div class="popup" onclick="clickFunction(event, {{ payload['id'] }})">Show payload data
-                                  <span class="popuptext" id="{{ payload['id'] }}">
-                                    {{ payload['data'] }}
+                            <div class="popup" onclick="clickFunction(event, {{ 4 * payload['id'] + 2 }})">Show payload data
+                                  <span class="popuptext" id="{{ 4 * payload['id'] + 2 }}">
+                                    {{ payload['data'].split('\r\n\r\n')[1] }}
+                                  </span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="popup" onclick="clickFunction(event, {{ 4 * payload['id'] + 3 }})">Show headers
+                                  <span class="popuptext" id="{{ 4 * payload['id'] + 3 }}">
+                                    {{ payload['data'].split('\r\n\r\n')[0] }}
                                   </span>
                             </div>
                         </td>

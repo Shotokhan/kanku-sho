@@ -1,17 +1,17 @@
 {
   "global": {
-    "flag_regex": "[A-Z0-9]{31}=",
-    "round_timeout": 90,
-    "user": "team39",
-    "host": "10.80.39.2",
+    "flag_regex": "MHACK\\{[A-Za-z0-9-_]{32}\\}",
+    "round_timeout": 60,
+    "user": "clippy",
+    "host": "10.10.125.1",
     "port": "22",
     "identity_file": "/home/marcofelix98/CyberChallenge/attack_defense/Traffic_analysis/remote_VM_ssh_id"
   },
   "capture": {
     "remote_interface": "any",
-    "remote_pcap_folder": "/home/team39",
-    "local_pcap_folder": "/home/marcofelix98/CyberChallenge/attack_defense/cbsctf/traffic_queue",
-    "local_pcap_backup": "/home/marcofelix98/CyberChallenge/attack_defense/cbsctf/traffic_analysed",
+    "remote_pcap_folder": "/tmp/",
+    "local_pcap_folder": "/home/marcofelix98/CyberChallenge/attack_defense/mHackeroni/traffic_queue",
+    "local_pcap_backup": "/home/marcofelix98/CyberChallenge/attack_defense/mHackeroni/traffic_analysed",
     "cap_filename_prefix": "remote_VM",
     "run_with_sudo": false,
     "time_string": "%d_%m_%Y_%H:%M",
@@ -21,7 +21,7 @@
     "preserve_all": false
   },
   "traffic_db": {
-    "db_name": "/home/marcofelix98/CyberChallenge/attack_defense/Traffic_analysis/final.db"
+    "db_name": "/home/marcofelix98/CyberChallenge/attack_defense/mHackeroni/mhackeroni_with_headers.db"
   },
   "flask": {
     "port": 8000,
