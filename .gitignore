@@ -10,3 +10,6 @@ src/extract_dumps.sh
 src/config.JSON
 src/Analysis_done/
 !src/Analysis_done/.gitkeep
+volume
+!volume/traffic_analysed/.gitkeep
+!volume/traffic_queue/.gitkeep

@@ -6,7 +6,8 @@ def ssh_wrapper(global_config, remote_command):
     host = global_config['host']
     port = global_config['port']
     identity_file = global_config['identity_file']
-    command = "ssh -i {} -p {} {}@{} '{}'".format(identity_file, port, user, host, remote_command)
+    command = "ssh -oStrictHostKeyChecking=no -i {} -p {} {}@{} '{}'".format(identity_file, port,
+                                                                             user, host, remote_command)
     os.system(command)
 
 
@@ -17,7 +18,8 @@ def remote_getfile_wrapper(global_config, remote_file_path, local_path):
     identity_file = global_config['identity_file']
     if local_path[0] != '/':
         local_path = '/' + local_path
-    command = 'rsync -avz -e "ssh -i {} -p {}" {}@{}:{} {}'.format(identity_file, port,
+    command = 'rsync -avz -e "ssh -oStrictHostKeyChecking=no -i {} -p {}" {}@{}:{} {}'.format(
+                                                                    identity_file, port,
                                                                    user, host, remote_file_path,
                                                                    local_path)
     os.system(command)

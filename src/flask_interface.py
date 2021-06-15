@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, Response
 import json
 import html
+import sys
 from interface import get_capture_files, get_streams, get_stream_with_payloads, get_services_stats, \
     get_possible_http_exploits, get_possible_tcp_exploits
 from util_code_generation import generate_from_stream
@@ -10,9 +11,8 @@ from util_flask import redirect_post_to_get
 
 app = Flask(__name__)
 
-with open('config.JSON', 'r') as f:
-    config = json.load(f)
-db_name = config['traffic_db']['db_name']
+global config
+global db_name
 
 
 @app.route("/")
@@ -120,5 +120,18 @@ def show_tcp_exploits():
 
 
 if __name__ == "__main__":
+    global db_name
+    global config
+    if len(sys.argv) < 2:
+        config_name = 'config.JSON'
+    else:
+        config_name = sys.argv[1]
+    with open(config_name, 'r') as f:
+        config = json.load(f)
+    if 'run' in config.keys():
+        if not config['run']['flask_interface']:
+            print("flask_interface.py: exiting because of run configuration.")
+            exit(0)
+    db_name = config['traffic_db']['db_name']
     app.debug = config['flask']['debug']
     app.run(host=config['flask']['host'], port=config['flask']['port'])

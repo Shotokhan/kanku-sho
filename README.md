@@ -12,6 +12,8 @@ kanku-sho is a tool for the following workflow:
 <br />
 The remote machine should have SSH enabled, and in order for the remote sniffing to work properly, you have to install an identity file on the remote machine.
 <br />
+If you want, you can also capture local traffic, by configuring "capture" -> "local_capture" -> true in config.JSON (see more later about which config.JSON you should use); in this case, "remote_pcap_folder" will actually be a local folder.
+<br />
 The task is easy:
 <br />
 ssh-keygen -f your_path/your_key -t ecdsa -b 521
@@ -29,7 +31,21 @@ The main modules are three:
 
 3) flask_interface.py
 <br />
-(1) and (2) can be executed together by run_threads.py, but depending on your operating system, there could be issues with pyshark.
+
+# Run with Docker
+<br /> <br />
+It is the easiest setup. In this case, you don't have to edit the config.JSON that you find in /src folder, but the config.JSON that you find in /volume folder.
+<br />
+The best thing to do is to put your identity file in the volume, to avoid re-building the image every time. Specify its path in config.JSON, under "global" -> "identity_file".
+<br />
+Since you may want to execute just the interface, for example, you can specify in "run" dict of config.JSON which modules you want to run (set true if you want to run the module).
+<br /> <br />
+
+# Run on the host
+<br /> <br />
+A little bit harder setup but more performant (Docker adds a layer to a pipeline).
+<br /> <br />
+Modules (1) and (2) can be executed together by run_threads.py, but depending on your operating system, there could be issues with pyshark.
 <br /> <br />
 Before using a new database, you have to run init_database.py, which will create a new database with the pre-defined DB schema, with the name defined in config.JSON. The database should be first created with: <br />
 sqlite3 db_name <br />

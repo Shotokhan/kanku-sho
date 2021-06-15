@@ -1,0 +1,11 @@
+services:
+    kanku-sho:
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+            network: host
+        image: kanku-sho
+        volumes:
+            - ./volume/:/usr/src/app/volume/
+        ports:
+            - "8000:8000" 

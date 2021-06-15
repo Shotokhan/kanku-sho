@@ -18,10 +18,11 @@
     "num_circular_files": 500,
     "initial_sleep_time": 10,
     "capture_file_size": 1,
-    "preserve_all": false
+    "preserve_all": false,
+    "local_capture": false
   },
   "traffic_db": {
-    "db_name": "/home/marcofelix98/CyberChallenge/attack_defense/mHackeroni/mhackeroni_with_headers.db"
+    "db_name": "/home/marcofelix98/CyberChallenge/attack_defense/final.db"
   },
   "flask": {
     "port": 8000,

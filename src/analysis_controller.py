@@ -56,6 +56,10 @@ if __name__ == "__main__":
         config_name = sys.argv[1]
     with open(config_name, 'r') as f:
         config = json.load(f)
+    if 'run' in config.keys():
+        if not config['run']['analysis_controller']:
+            print("analysis_controller.py: exiting because of run configuration.")
+            exit(0)
     global_config = config['global']
     capture_config = config['capture']
     traffic_db = config['traffic_db']

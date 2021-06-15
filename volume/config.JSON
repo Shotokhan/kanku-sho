@@ -1,0 +1,37 @@
+{
+  "run": {
+    "flask_interface": true,
+    "remote_sniffer": false,
+    "analysis_controller": false
+  },
+  "global": {
+    "flag_regex": "flg\\{[A-Za-z0-9-_]{1,}\\}",
+    "round_timeout": 60,
+    "user": "mininet",
+    "host": "192.168.122.115",
+    "port": "22",
+    "identity_file": "/usr/src/app/volume/remote_VM_ssh_id"
+  },
+  "capture": {
+    "remote_interface": "any",
+    "remote_pcap_folder": "/home/mininet",
+    "local_pcap_folder": "/usr/src/app/volume/traffic_queue",
+    "local_pcap_backup": "/usr/src/app/volume/traffic_analysed",
+    "cap_filename_prefix": "remote_VM",
+    "run_with_sudo": false,
+    "time_string": "%d_%m_%Y_%H:%M",
+    "num_circular_files": 500,
+    "initial_sleep_time": 10,
+    "capture_file_size": 1,
+    "preserve_all": false,
+    "local_capture": false
+  },
+  "traffic_db": {
+    "db_name": "/usr/src/app/volume/traffic.db"
+  },
+  "flask": {
+    "port": 8000,
+    "host": "0.0.0.0",
+    "debug": true
+  }
+}

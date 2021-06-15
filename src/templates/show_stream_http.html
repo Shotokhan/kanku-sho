@@ -38,7 +38,7 @@
                             <td>
                                 <div class="popup" onclick="clickFunction(event, {{ 4 * payload['id'] }})">Show parameters
                                       <span class="popuptext" id="{{ 4 * payload['id'] }}">
-                                        {{ payload['data'] }}
+                                        {{ payload['http']['parameters'] }}
                                       </span>
                                 </div>
                             </td>
@@ -70,14 +70,14 @@
                         <td>
                             <div class="popup" onclick="clickFunction(event, {{ 4 * payload['id'] + 2 }})">Show payload data
                                   <span class="popuptext" id="{{ 4 * payload['id'] + 2 }}">
-                                    {{ payload['data'].split('\r\n\r\n')[1] }}
+                                    {{ payload['data'].split('\r\n\r\n')[-1] }}
                                   </span>
                             </div>
                         </td>
                         <td>
                             <div class="popup" onclick="clickFunction(event, {{ 4 * payload['id'] + 3 }})">Show headers
                                   <span class="popuptext" id="{{ 4 * payload['id'] + 3 }}">
-                                    {{ payload['data'].split('\r\n\r\n')[0] }}
+                                    {{ payload['data'].split('\r\n\r\n')[-2] }}
                                   </span>
                             </div>
                         </td>
