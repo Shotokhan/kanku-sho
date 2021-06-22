@@ -18,7 +18,7 @@ def remote_getfile_wrapper(global_config, remote_file_path, local_path):
     identity_file = global_config['identity_file']
     if local_path[0] != '/':
         local_path = '/' + local_path
-    command = 'rsync -avz -e "ssh -oStrictHostKeyChecking=no -i {} -p {}" {}@{}:{} {}'.format(
+    command = 'rsync -avz -e "ssh -oStrictHostKeyChecking=no -i {} -p {}" {}@{}:{} {} 2>/dev/null'.format(
                                                                     identity_file, port,
                                                                    user, host, remote_file_path,
                                                                    local_path)

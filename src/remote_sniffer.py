@@ -45,10 +45,10 @@ def remote_sniffing(global_config, capture_config):
         if not is_local_capture:
             remote_getfile_wrapper(global_config, remote_path + "*.bz2", local_path)
         else:
-            os.system("mv {}*.bz2 {}".format(remote_path, local_path))
+            os.system("mv {}*.bz2 {} 2>/dev/null".format(remote_path, local_path))
         end = time.time()
         sleep_time = min(1 + init_sleep_time / (end-start), init_sleep_time)
-        os.system('bzip2 -df {}*.bz2'.format(local_path))
+        os.system('bzip2 -df {}*.bz2 2>/dev/null'.format(local_path))
         if not is_local_capture:
             ssh_wrapper(global_config, sudo + "rm -f {}".format(remote_file_path + "*.bz2"))
 
