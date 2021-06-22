@@ -2,8 +2,20 @@ import json
 import sys
 import time
 import os
+import signal
+from functools import partial
 
 from remote_wrapper import ssh_wrapper, remote_getfile_wrapper
+
+
+def sig_handler(params, signal, frame):
+    global_config, sudo, is_local_capture = params[0], params[1], params[2]
+    if not is_local_capture:
+        ssh_wrapper(global_config, sudo + "pkill tcpdump")
+    else:
+        os.system(sudo + 'pkill tcpdump')
+    print("Remote sniffer exiting gracefully")
+    exit(0)
 
 
 def capture_command(port, interface, filename, run_with_sudo, num_files, file_size):
@@ -30,6 +42,9 @@ def remote_sniffing(global_config, capture_config):
     is_local_capture = capture_config['local_capture']
     port = global_config['port']
     sudo = "sudo " if run_with_sudo else ""
+    sig_handler_params = [global_config, sudo, is_local_capture]
+    signal.signal(signal.SIGTERM, partial(sig_handler, sig_handler_params))
+    signal.signal(signal.SIGINT, partial(sig_handler, sig_handler_params))
     sleep_time = init_sleep_time
     filename = "{}_{}.pcap".format(prefix, interface)
     remote_file_path = remote_path + filename

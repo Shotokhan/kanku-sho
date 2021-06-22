@@ -1,5 +1,13 @@
 #!/bin/bash
 # This is intended to run the main modules in Docker, because Docker allows only one CMD at a time
+_term() {
+  # echo "Caught interrupt signal"
+  for pid in ${pids[*]}; do
+    kill -TERM "$pid" 2>/dev/null
+  done
+}
+trap _term SIGTERM
+trap _term SIGINT
 srcPath=/usr/src/app/src
 vol=/usr/src/app/volume
 config="$vol/config.JSON"
