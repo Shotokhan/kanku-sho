@@ -2,7 +2,7 @@ click==7.1.2
 Flask==1.1.2
 itsdangerous==1.1.0
 Jinja2==2.11.3
-lxml==4.6.3
+lxml==4.6.5
 MarkupSafe==1.1.1
 py==1.10.0
 pyshark==0.4.3
